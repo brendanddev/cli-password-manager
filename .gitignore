@@ -2,53 +2,24 @@
 # Environment variables
 .env
 
-# Maven build output
+# Rust/cargo
 target/
-!.mvn/wrapper/maven-wrapper.jar
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+**/*.rs.bk                  
+Cargo.lock
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Ide
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# Build tools
-build/
-out/
+# macOS
+.DS_Store
+node_modules/
+
+# Sensitive data / passwords
+*.json
+*.db
 
 # Logs
 *.log
-
-# Compiled class files
-*.class
-
-# Package files
-*.jar
-*.war
-*.ear
-
-# IDE specific
-# IntelliJ
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# Eclipse
-.project
-.classpath
-.settings/
-bin/
-
-# VS Code
-.vscode/
-
-# OS-specific
-.DS_Store
-Thumbs.db
