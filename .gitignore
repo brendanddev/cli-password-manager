@@ -2,11 +2,6 @@
 # Environment variables
 .env
 
-# Rust/cargo
-target/
-**/*.rs.bk                  
-Cargo.lock
-
 # Ide
 .idea/
 .vscode/
@@ -15,11 +10,7 @@ Cargo.lock
 
 # macOS
 .DS_Store
-node_modules/
 
-# Sensitive data / passwords
-*.json
-*.db
+# Temporarily
+info.txt
 
-# Logs
-*.log
