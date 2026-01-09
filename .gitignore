@@ -11,6 +11,13 @@
 # macOS
 .DS_Store
 
+# Ignore compiled binaries
+out
+*.exe
+*.out
+*.o
+*.obj
+
 # Temporarily
 info.txt
 
