@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <math.h>
 
 
@@ -8,10 +9,14 @@
 int display_menu(void);
 void handle_choice(int choice);
 
-
 int main(void) {
-    int choice = display_menu();
-    handle_choice(choice);
+    
+    int choice;
+    do {
+        choice = display_menu();
+        handle_choice(choice);
+    } while (choice != 0);
+
     return 0;
 }
 
@@ -21,6 +26,8 @@ int display_menu(void) {
     printf("2) Edit existing password\n");
     printf("3) Delete existing password\n");
     printf("4) Generate new password\n");
+    printf("5) View Password\n");
+    printf("0) Exit ");
     printf("Enter your choice: \n");
 
     int choice;
@@ -32,18 +39,15 @@ int display_menu(void) {
 void handle_choice(int choice) {
 
     switch (choice) {
-    
-        case 0:
-            printf("You entered 0?");
-            break;
+
         case 1:
-            printf("You entered 1?");
+            printf("Enter USERNAME, PASSWORD, TYPE in the provided format: \n");
             break;
         case 2:
             printf("You entered 2?");
             break;
         case 3:
-            printf("You entered 2?");
+            printf("You entered 3?");
             break;
         case 4:
             printf("You entered 4?");
