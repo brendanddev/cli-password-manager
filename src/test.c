@@ -38,20 +38,15 @@ int main(void) {
     if (type == NULL) return -1;
 
     fgets(type, 100, stdin);
-    printf("You entered: %s", type);
 
-    // Creates pointer to the first substring seperated by the delimeter
-    char *token = strtok(input, ",");
+    if (view_password(type)) {
 
-    // Loop through each token
-    while (token != NULL) {
-        printf("%s\n", token);
-        token = strtok(NULL, ",");      // Get next token
+    } else {
+
     }
 
     free(type);
     type = NULL;
-
 
     return 0;
 }
@@ -81,14 +76,29 @@ bool view_password(char *type) {
     fptr = fopen("passwords.csv", "r");
     if (fptr == NULL) return false;
 
-    // char *token = strtok(fptr, ",");
+    printf("You entered: %s\n", type);
 
-    // // Loop through each token
-    // while (token != NULL) {
-    //     printf("%s\n", token);
-    //     token = strtok(NULL, ",");      // Get next token
-    // }
+    // Allocate memory for the contents of the file
+    char *contents = NULL;
+    contents = malloc(256 * sizeof(char));
+    if (contents == NULL) return false;
 
+    // Read the file line by line into the pointer until EOF is reached or read error occurs
+    while (fgets(contents, 256, fptr) != NULL) {
+        printf("CURRENT LINE: %s", contents);
+        char *username = strtok(contents, ",");
+        char *password = strtok(NULL, ",");
+        char *ptype = strtok(NULL, ",");
+        printf("Username: %s, Password: %s, Type: %s\n", username, password, ptype);
+
+        if (type != NULL && strcmp(type, ptype) == 0) {
+            printf("Password for %s = %s\n", type, ptype);
+            return true;
+        }
+    }
+
+    free(contents);
+    contents = NULL;
 
     // Close the open file and nullify pointer
     fclose(fptr);
