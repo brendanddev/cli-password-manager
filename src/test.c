@@ -87,24 +87,17 @@ bool view_password(char *type) {
 
     // Read the file line by line into the pointer until EOF is reached or read error occurs
     while (fgets(contents, 256, fptr) != NULL) {
-        printf("CURRENT LINE: %s", contents);
+        // printf("CURRENT LINE: %s", contents);
         char *username = strtok(contents, ",");
         char *password = strtok(NULL, ",");
         char *ptype = strtok(NULL, ",");
-        printf("Username: %s, Password: %s, Type: %s\n", username, password, ptype);
+        // printf("Username: %s, Password: %s, Type: %s\n", username, password, ptype);
 
         // Find where new line character is in string with `strcspn`, go to that index, and replace with null terminator
         if (ptype != NULL && type != NULL) {
-            ptype[strcspn(ptype, "\n")] = '\0';
-            type[strcspn(type, "\n")] = '\0';
+            normalize_str(ptype);
+            normalize_str(type);
         }
-
-        // discord<NULL>discord<LB><NULL>
-
-        printf("COMPARING %s AND %s\n", ptype, type);
-        print_str(ptype);
-        print_str(type);
-        printf("\n");
 
         if (strcmp(type, ptype) == 0) {
             printf("Password for %s = %s\n", type, password);
@@ -122,7 +115,18 @@ bool view_password(char *type) {
 }
 
 
+// Normalizes a string at a byte level
+char* normalize_str(char *str) {
 
+    if (str == NULL) return NULL;
+
+    int length = strlen(str);
+    while (length > 0 && (str[length - 1] == '\n' || str[length - 1] == '\r')) {
+        str[length - 1] = '\0';
+        length--;
+    }
+    return str;
+}
 
 // Prints the contents of a string character by character
 void print_str(char *str) {
