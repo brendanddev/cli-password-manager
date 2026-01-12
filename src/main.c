@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+#include "password.h"
 
 
 // Prototypes
@@ -21,14 +22,15 @@ int main(void) {
 }
 
 int display_menu(void) {
-    printf("========= CLI Password Manager =========");
+    printf("========= CLI Password Manager =========\n");
     printf("1) Add new password\n");
     printf("2) View Password\n");
     printf("0) Exit ");
     printf("Enter your choice: \n");
 
-    int choice;
-    scanf("%d", &choice);
+    char line[3];
+    fgets(line, 3, stdin);
+    int choice = atoi(line);
     printf("You entered: %d\n", choice);
     return choice;
 }
@@ -38,7 +40,26 @@ void handle_choice(int choice) {
     switch (choice) {
 
         case 1:
-            printf("Enter USERNAME, PASSWORD, TYPE in the provided format: \n");
+            printf("Enter USERNAME,PASSWORD,TYPE in the provided format: \n");
+
+            // Allocate memory for the input string to read
+            char *input = NULL;
+            input = malloc(265 * sizeof(char));
+            if (input == NULL) return;
+
+            fgets(input, 256, stdin);
+            printf("You entered: %s", input);
+
+            if (add_password(input)) {
+                printf("Successfully wrote the password.\n");
+            } else {
+                printf("Failed to write the password.\n");
+            }
+
+            // Free memory allocated for input string
+            free(input);
+            input = NULL;
+
             break;
         case 2:
             printf("Enter the TYPE of password to view: \n");
