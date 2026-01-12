@@ -22,7 +22,7 @@ bool add_password(char *input) {
 }
 
 // View a password by type
-bool view_password(char *type) {
+bool view_password(char *type, char *out_password) {
 
     FILE *fptr = NULL;
     fptr = fopen("passwords.csv", "r");
@@ -50,7 +50,7 @@ bool view_password(char *type) {
         }
 
         if (strcmp(type, ptype) == 0) {
-            printf("Password for %s = %s\n", type, password);
+            memcpy(out_password, password, 256);
             return true;
         }
     }
@@ -61,7 +61,7 @@ bool view_password(char *type) {
     // Close the open file and nullify pointer
     fclose(fptr);
     fptr = NULL;
-    return true;
+    return false;
 }
 
 

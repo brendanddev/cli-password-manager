@@ -6,7 +6,7 @@
 
 
 bool add_password(char *input);
-bool view_password(char *type);
+bool view_password(char *type, char *out_password);
 
 char* normalize_str(char *str);
 void print_str(char *str);

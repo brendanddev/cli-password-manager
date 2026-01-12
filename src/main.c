@@ -10,6 +10,7 @@
 int display_menu(void);
 void handle_choice(int choice);
 
+
 int main(void) {
     
     int choice;
@@ -63,6 +64,22 @@ void handle_choice(int choice) {
             break;
         case 2:
             printf("Enter the TYPE of password to view: \n");
+
+            char *type = NULL;
+            type = malloc(100 * sizeof(char));
+            if (type == NULL) return;
+
+            fgets(type, 100, stdin);
+            char password[256];
+            if (view_password(type, password)) {
+                printf("Password: %s\n", password);
+            } else {
+                printf("Failed to find a corresponding password.\n");
+            }
+
+            free(type);
+            type = NULL;
+
             break;
         default:
             break;
