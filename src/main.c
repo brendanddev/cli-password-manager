@@ -23,10 +23,7 @@ int main(void) {
 int display_menu(void) {
     printf("========= CLI Password Manager =========");
     printf("1) Add new password\n");
-    printf("2) Edit existing password\n");
-    printf("3) Delete existing password\n");
-    printf("4) Generate new password\n");
-    printf("5) View Password\n");
+    printf("2) View Password\n");
     printf("0) Exit ");
     printf("Enter your choice: \n");
 
@@ -44,13 +41,7 @@ void handle_choice(int choice) {
             printf("Enter USERNAME, PASSWORD, TYPE in the provided format: \n");
             break;
         case 2:
-            printf("You entered 2?");
-            break;
-        case 3:
-            printf("You entered 3?");
-            break;
-        case 4:
-            printf("You entered 4?");
+            printf("Enter the TYPE of password to view: \n");
             break;
         default:
             break;

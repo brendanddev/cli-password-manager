@@ -6,29 +6,31 @@
 
 bool add_password(char *input);
 bool view_password(char *type);
+char* normalize_str(char *str);
+void print_str(char *str);
 
 int main(void) {
     
     printf("Enter USERNAME,PASSWORD,TYPE \n");
 
     // Allocate memory for the input string to read
-    char *input = NULL;
-    input = malloc(256 * sizeof(char));
-    if (input == NULL) return -1;
+    // char *input = NULL;
+    // input = malloc(256 * sizeof(char));
+    // if (input == NULL) return -1;
 
     // scanf("%s", input);
-    fgets(input, 256, stdin);
-    printf("You entered: %s", input);
+    // fgets(input, 256, stdin);
+    // printf("You entered: %s", input);
 
-    if (add_password(input)) {
-        printf("Successfully wrote the password.\n");
-    } else {
-        printf("Failed to write the password.\n");
-    }
+    // if (add_password(input)) {
+    //     printf("Successfully wrote the password.\n");
+    // } else {
+    //     printf("Failed to write the password.\n");
+    // }
 
     // Free memory allocated for input string
-    free(input);
-    input = NULL;
+    // free(input);
+    // input = NULL;
 
 
     printf("Enter the type of password to view: \n");
@@ -91,8 +93,21 @@ bool view_password(char *type) {
         char *ptype = strtok(NULL, ",");
         printf("Username: %s, Password: %s, Type: %s\n", username, password, ptype);
 
-        if (type != NULL && strcmp(type, ptype) == 0) {
-            printf("Password for %s = %s\n", type, ptype);
+        // Find where new line character is in string with `strcspn`, go to that index, and replace with null terminator
+        if (ptype != NULL && type != NULL) {
+            ptype[strcspn(ptype, "\n")] = '\0';
+            type[strcspn(type, "\n")] = '\0';
+        }
+
+        // discord<NULL>discord<LB><NULL>
+
+        printf("COMPARING %s AND %s\n", ptype, type);
+        print_str(ptype);
+        print_str(type);
+        printf("\n");
+
+        if (strcmp(type, ptype) == 0) {
+            printf("Password for %s = %s\n", type, password);
             return true;
         }
     }
@@ -104,4 +119,18 @@ bool view_password(char *type) {
     fclose(fptr);
     fptr = NULL;
     return true;
+}
+
+
+
+
+// Prints the contents of a string character by character
+void print_str(char *str) {
+
+    for (int i = 0; i < strlen(str) + 1; i++) {
+        if (str[i] == '\0') printf("<NULL>");
+        else if (str[i] == '\n') printf("<LB>");
+        else if (str[i] == '\r') printf("<CR>");
+        else printf("%c", str[i]);
+    }
 }
