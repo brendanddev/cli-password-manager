@@ -97,7 +97,7 @@ void handle_choice(int choice) {
             if (delete_password(type)) {
                 printf("Deleted Password Associated with: %s\n", type);
             } else {
-                printf("Failed to delete the password.");
+                printf("Failed to delete the password.\n");
             }
             free(type);
             type = NULL;

@@ -28,12 +28,8 @@ bool view_password(char *type, char *out_password) {
     fptr = fopen("passwords.csv", "r");
     if (fptr == NULL) return false;
 
-    printf("You entered: %s\n", type);
-
-    // Allocate memory for the contents of the file
-    char *contents = NULL;
-    contents = malloc(256 * sizeof(char));
-    if (contents == NULL) return false;
+    // Allocate memory on the stack for the file contents (fixed size buffer)
+    char contents[256];
 
     // Read the file line by line into the buffer until EOF is reached or read error occurs
     while (fgets(contents, 256, fptr) != NULL) {
@@ -52,9 +48,6 @@ bool view_password(char *type, char *out_password) {
             return true;
         }
     }
-
-    free(contents);
-    contents = NULL;
 
     // Close the open file and nullify pointer
     fclose(fptr);
@@ -75,18 +68,18 @@ bool delete_password(char *type) {
     temp = fopen("temp.csv", "w");
     if (temp == NULL) return false;
 
-    // Allocate memory for the contents of the file
-    char *contents = NULL;
-    contents = malloc(256 * sizeof(char));
-    if (contents == NULL) return false;
-
+    // Store file contents on the stack
+    char contents[256];
     char original[256];
+    bool deleted = false;
 
     // Read the file line by line into the buffer 
     while (fgets(contents, 256, fptr) != NULL) {
 
+        // Store current line before tokenizing incase its being written
         strcpy(original, contents);
 
+        // Tokenize current line of file to seperate values by comma
         char *username = strtok(contents, ",");
         char *password = strtok(NULL, ",");
         char *ptype = strtok(NULL, ",");
@@ -94,16 +87,20 @@ bool delete_password(char *type) {
         if (strcmp(type, ptype) != 0) {
             // Write the current line into the temp file
             fputs(original, temp);
+        } else {
+            deleted = true;
         }
     }
 
     fclose(fptr);
-    fptr = NULL;
-
     fclose(temp);
+    fptr = NULL;
     temp = NULL;
 
-    return true;
+    // Remove old file and rename temporary file
+    remove("passwords.csv");
+    rename("temp.csv", "passwords.csv");
+    return deleted;
 }
 
 
