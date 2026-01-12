@@ -35,13 +35,11 @@ bool view_password(char *type, char *out_password) {
     contents = malloc(256 * sizeof(char));
     if (contents == NULL) return false;
 
-    // Read the file line by line into the pointer until EOF is reached or read error occurs
+    // Read the file line by line into the buffer until EOF is reached or read error occurs
     while (fgets(contents, 256, fptr) != NULL) {
-        // printf("CURRENT LINE: %s", contents);
         char *username = strtok(contents, ",");
         char *password = strtok(NULL, ",");
         char *ptype = strtok(NULL, ",");
-        // printf("Username: %s, Password: %s, Type: %s\n", username, password, ptype);
 
         // Find where new line character is in string with `strcspn`, go to that index, and replace with null terminator
         if (ptype != NULL && type != NULL) {
@@ -62,6 +60,50 @@ bool view_password(char *type, char *out_password) {
     fclose(fptr);
     fptr = NULL;
     return false;
+}
+
+// Deletes a stored password by type
+bool delete_password(char *type) {
+
+    // Declare a file pointer and open csv file to read
+    FILE *fptr = NULL;
+    fptr = fopen("passwords.csv", "r");
+    if (fptr == NULL) return false;
+
+    // Open a temporary file for writing
+    FILE *temp = NULL;
+    temp = fopen("temp.csv", "w");
+    if (temp == NULL) return false;
+
+    // Allocate memory for the contents of the file
+    char *contents = NULL;
+    contents = malloc(256 * sizeof(char));
+    if (contents == NULL) return false;
+
+    char original[256];
+
+    // Read the file line by line into the buffer 
+    while (fgets(contents, 256, fptr) != NULL) {
+
+        strcpy(original, contents);
+
+        char *username = strtok(contents, ",");
+        char *password = strtok(NULL, ",");
+        char *ptype = strtok(NULL, ",");
+
+        if (strcmp(type, ptype) != 0) {
+            // Write the current line into the temp file
+            fputs(original, temp);
+        }
+    }
+
+    fclose(fptr);
+    fptr = NULL;
+
+    fclose(temp);
+    temp = NULL;
+
+    return true;
 }
 
 

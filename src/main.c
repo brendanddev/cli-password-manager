@@ -26,6 +26,7 @@ int display_menu(void) {
     printf("========= CLI Password Manager =========\n");
     printf("1) Add new password\n");
     printf("2) View Password\n");
+    printf("3) Delete Password\n");
     printf("0) Exit ");
     printf("Enter your choice: \n");
 
@@ -40,7 +41,7 @@ void handle_choice(int choice) {
 
     switch (choice) {
 
-        case 1:
+        case 1: {
             printf("Enter USERNAME,PASSWORD,TYPE in the provided format: \n");
 
             // Allocate memory for the input string to read
@@ -62,7 +63,9 @@ void handle_choice(int choice) {
             input = NULL;
 
             break;
-        case 2:
+        }
+
+        case 2: {
             printf("Enter the TYPE of password to view: \n");
 
             char *type = NULL;
@@ -81,8 +84,30 @@ void handle_choice(int choice) {
             type = NULL;
 
             break;
-        default:
+        }
+
+        case 3: {
+            printf("Enter the TYPE of password to delete: \n");
+           
+            char *type = NULL;
+            type = malloc(100 * sizeof(char));
+            if (type == NULL) return;
+            fgets(type, 50, stdin);
+
+            if (delete_password(type)) {
+                printf("Deleted Password Associated with: %s\n", type);
+            } else {
+                printf("Failed to delete the password.");
+            }
+            free(type);
+            type = NULL;
             break;
+        }
+
+        default: {
+            printf("This was not an option. Please try again.\n");
+            break;
+        }
     }
     printf("\n");
 }
