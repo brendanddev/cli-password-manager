@@ -63,7 +63,7 @@ bool view_password(char *type, char *out_password) {
 }
 
 // Edits a password by type
-bool edit_password(char *type) {
+bool edit_password(char *new_password, char *type) {
 
     // Open the passwords csv file
     FILE *fptr = NULL;
@@ -99,32 +99,25 @@ bool edit_password(char *type) {
         if (ptype != NULL && type != NULL) {
             normalize_str(ptype);
             normalize_str(type);
+            normalize_str(new_password);
         }
 
         // Check if we found type of password to edit
         if (strcmp(ptype, type) == 0) {
-            fprintf(temp, "%s,%s,%s\n", username, )
-
+            // Write the line including the updated password to the temp file
+            fprintf(temp, "%s,%s,%s\n", username, new_password, ptype);
             edited = true;
-
-             // Writes the input text to the file
-            // fprintf(fptr, "%s,%s,%s\n", username, encoded_password, type);
-
         } else {
-            fputs(contents, temp);
+            fputs(original, temp);
         }
-
-        return edited;
     }
 
+    fclose(fptr);
+    fclose(temp);
+    fptr = NULL;
+    temp = NULL;
 
-
-
-
-
-
-
-    return false;
+    return edited;
 }
 
 

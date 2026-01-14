@@ -26,8 +26,9 @@ int display_menu(void) {
     printf("========= CLI Password Manager =========\n");
     printf("1) Add new password\n");
     printf("2) View Password\n");
-    printf("3) Delete Password\n");
-    printf("0) Exit ");
+    printf("3) Edit Password\n");
+    printf("4) Delete Password\n");
+    printf("0) Exit\n");
     printf("Enter your choice: \n");
 
     char line[3];
@@ -87,6 +88,23 @@ void handle_choice(int choice) {
         }
 
         case 3: {
+            printf("Enter the TYPE of password to edit: \n");
+            char type[100];
+            fgets(type, 100, stdin);
+
+            printf("Enter the updated password: \n");
+            char updated_password[256];
+            fgets(updated_password, 256, stdin);
+
+            if (edit_password(updated_password, type)) {
+                printf("Password updated successfully.\n");
+            } else {
+                printf("Failed to update the password.\n");
+            }
+            break;
+        }
+
+        case 4: {
             printf("Enter the TYPE of password to delete: \n");
            
             char *type = NULL;
