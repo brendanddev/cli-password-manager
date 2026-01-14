@@ -9,7 +9,6 @@ bool add_password(char *input);
 bool view_password(char *type, char *out_password);
 bool delete_password(char *type);
 char* encode(char *raw);
-char* decode(char *encoded);
 
 char* normalize_str(char *str);
 void print_str(char *str);

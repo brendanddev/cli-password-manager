@@ -12,8 +12,13 @@ bool add_password(char *input) {
     fptr = fopen("passwords.csv", "a");
     if (fptr == NULL) return false;
 
+    char *username = strtok(input, ",");
+    char *password = strtok(NULL, ",");
+    char *encoded_password = encode(password);
+    char *type = strtok(NULL, ",");
+
     // Writes the input text to the file
-    fprintf(fptr, input);
+    fprintf(fptr, "%s,%s,%s\n", username, encoded_password, type);
 
     // Close the open file and nullify pointer
     fclose(fptr);
@@ -83,6 +88,12 @@ bool delete_password(char *type) {
         char *username = strtok(contents, ",");
         char *password = strtok(NULL, ",");
         char *ptype = strtok(NULL, ",");
+
+        // Normalize the types to compare 
+        if (ptype != NULL && type != NULL) {
+            normalize_str(ptype);
+            normalize_str(type);
+        }
 
         if (strcmp(type, ptype) != 0) {
             // Write the current line into the temp file
