@@ -14,12 +14,12 @@ int main(void) {
     // Applies XOR to each of the 8 bits
     for (int i = 0; i < strlen(test); i++) {
         test[i] = test[i] ^ key;
-        printf("%c \n", test[i]);
+        printf("%c", test[i]);
     }
 
     for (int i = 0; i < strlen(test); i++) {
         test[i] = test[i] ^ key;
-        printf("%c \n", test[i]);
+        printf("%c", test[i]);
     }
 
 

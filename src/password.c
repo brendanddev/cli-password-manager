@@ -103,6 +103,19 @@ bool delete_password(char *type) {
     return deleted;
 }
 
+// Encodes a raw password by applying XOR to each bit
+char* encode(char *raw) {
+    char key = 0x55;
+    if (raw == NULL) return NULL;
+    
+    int i = 0;
+    while (raw[i] != '\0') {
+        raw[i] = raw[i] ^ key;
+        i++;
+    }
+    return raw;
+}
+
 
 // Normalizes a string at a byte level
 char* normalize_str(char *str) {
