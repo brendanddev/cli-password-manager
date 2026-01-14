@@ -7,6 +7,7 @@
 
 bool add_password(char *input);
 bool view_password(char *type, char *out_password);
+bool edit_password(char *type);
 bool delete_password(char *type);
 char* encode(char *raw);
 

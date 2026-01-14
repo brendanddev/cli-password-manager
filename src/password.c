@@ -12,6 +12,7 @@ bool add_password(char *input) {
     fptr = fopen("passwords.csv", "a");
     if (fptr == NULL) return false;
 
+    // Split input by delimeter and encode password before writing
     char *username = strtok(input, ",");
     char *password = strtok(NULL, ",");
     char *encoded_password = encode(password);
@@ -49,7 +50,8 @@ bool view_password(char *type, char *out_password) {
         }
 
         if (strcmp(type, ptype) == 0) {
-            memcpy(out_password, password, 256);
+            char *decoded = encode(password);
+            memcpy(out_password, decoded, 256);
             return true;
         }
     }
@@ -59,6 +61,72 @@ bool view_password(char *type, char *out_password) {
     fptr = NULL;
     return false;
 }
+
+// Edits a password by type
+bool edit_password(char *type) {
+
+    // Open the passwords csv file
+    FILE *fptr = NULL;
+    fptr = fopen("passwords.csv", "r");
+    if (fptr == NULL) return false;
+
+    // Open a temporary file to write updated contents into
+    FILE *temp = NULL;
+    temp = fopen("temp.csv", "w");
+    if (temp == NULL) {
+        fclose(fptr);
+        return false;
+    }
+
+    // Allocate memory on the stack for the contents of the file,
+    // the original contents, and whether the password has been edited or not
+    char contents[256];
+    char original[256];
+    bool edited = false;
+
+    // Continue reading lines of the file until the end
+    while (fgets(contents, 256, fptr) != NULL) {
+
+        // Copy the current line into the original buffer before tokenizing
+        strcpy(original, contents);
+
+        // Split the current line into username, password, and type
+        char *username = strtok(contents, ",");
+        char *password = strtok(NULL, ",");
+        char *ptype = strtok(NULL, ",");
+
+        // Normalize both strings for comparison
+        if (ptype != NULL && type != NULL) {
+            normalize_str(ptype);
+            normalize_str(type);
+        }
+
+        // Check if we found type of password to edit
+        if (strcmp(ptype, type) == 0) {
+            fprintf(temp, "%s,%s,%s\n", username, )
+
+            edited = true;
+
+             // Writes the input text to the file
+            // fprintf(fptr, "%s,%s,%s\n", username, encoded_password, type);
+
+        } else {
+            fputs(contents, temp);
+        }
+
+        return edited;
+    }
+
+
+
+
+
+
+
+
+    return false;
+}
+
 
 // Deletes a stored password by type
 bool delete_password(char *type) {
