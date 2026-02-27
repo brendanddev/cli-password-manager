@@ -2,6 +2,12 @@
 # Environment variables
 .env
 
+# Compiled artifacts
+build/
+
+# Data files
+data/
+
 # Ide
 .idea/
 .vscode/
@@ -18,7 +24,5 @@ out
 *.o
 *.obj
 
-# Temporarily
-info.txt
-passwords.csv
-temp.csv
+# Temp
+old/

@@ -1,131 +1,17 @@
+
+/**
+ * main.c
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <math.h>
-#include "password.h"
 
-
-// Prototypes
-int display_menu(void);
-void handle_choice(int choice);
 
 
 int main(void) {
-    
-    int choice;
-    do {
-        choice = display_menu();
-        handle_choice(choice);
-    } while (choice != 0);
+
 
     return 0;
-}
-
-int display_menu(void) {
-    printf("========= CLI Password Manager =========\n");
-    printf("1) Add new password\n");
-    printf("2) View Password\n");
-    printf("3) Edit Password\n");
-    printf("4) Delete Password\n");
-    printf("0) Exit\n");
-    printf("Enter your choice: \n");
-
-    char line[3];
-    fgets(line, 3, stdin);
-    int choice = atoi(line);
-    printf("You entered: %d\n", choice);
-    return choice;
-}
-
-void handle_choice(int choice) {
-
-    switch (choice) {
-
-        case 1: {
-            printf("Enter USERNAME,PASSWORD,TYPE in the provided format: \n");
-
-            // Allocate memory for the input string to read
-            char *input = NULL;
-            input = malloc(265 * sizeof(char));
-            if (input == NULL) return;
-
-            fgets(input, 256, stdin);
-            printf("You entered: %s", input);
-
-            if (add_password(input)) {
-                printf("Successfully wrote the password.\n");
-            } else {
-                printf("Failed to write the password.\n");
-            }
-
-            // Free memory allocated for input string
-            free(input);
-            input = NULL;
-
-            break;
-        }
-
-        case 2: {
-            printf("Enter the TYPE of password to view: \n");
-
-            char *type = NULL;
-            type = malloc(100 * sizeof(char));
-            if (type == NULL) return;
-
-            fgets(type, 100, stdin);
-            char password[256];
-            if (view_password(type, password)) {
-                printf("Password: %s\n", password);
-            } else {
-                printf("Failed to find a corresponding password.\n");
-            }
-
-            free(type);
-            type = NULL;
-
-            break;
-        }
-
-        case 3: {
-            printf("Enter the TYPE of password to edit: \n");
-            char type[100];
-            fgets(type, 100, stdin);
-
-            printf("Enter the updated password: \n");
-            char updated_password[256];
-            fgets(updated_password, 256, stdin);
-
-            if (edit_password(updated_password, type)) {
-                printf("Password updated successfully.\n");
-            } else {
-                printf("Failed to update the password.\n");
-            }
-            break;
-        }
-
-        case 4: {
-            printf("Enter the TYPE of password to delete: \n");
-           
-            char *type = NULL;
-            type = malloc(100 * sizeof(char));
-            if (type == NULL) return;
-            fgets(type, 50, stdin);
-
-            if (delete_password(type)) {
-                printf("Deleted Password Associated with: %s\n", type);
-            } else {
-                printf("Failed to delete the password.\n");
-            }
-            free(type);
-            type = NULL;
-            break;
-        }
-
-        default: {
-            printf("This was not an option. Please try again.\n");
-            break;
-        }
-    }
-    printf("\n");
 }
