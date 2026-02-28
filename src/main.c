@@ -17,6 +17,7 @@
 
 int main(void) {
 
+    // This would be read from user
     char username[64] = "ADMIN";
     char password[128] = "ADMIN";
     char type[32] = "TEST";
@@ -27,6 +28,7 @@ int main(void) {
     }
 
     print_entry(entry);
+    add_password(entry);
 
     free_entry(entry);
     return 0;
