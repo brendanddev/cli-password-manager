@@ -3,6 +3,8 @@
  * entry.h
  * 
  * Defines the PasswordEntry struct and functions for managing it.
+ * 
+ * Brendan Dileo
  */
 #ifndef ENTRY_H
 #define ENTRY_H
@@ -17,5 +19,7 @@ typedef struct {
 
 PasswordEntry* create_entry(char *username, char *password, char *type);
 void free_entry(PasswordEntry *entry);
+bool parse_entry(char *line, PasswordEntry *out);
+void print_entry(PasswordEntry *entry);
 
 #endif

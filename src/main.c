@@ -26,11 +26,7 @@ int main(void) {
         return -1;
     }
 
-    printf("Username: %s\n", entry->username);
-    printf("Password: %s\n", entry->password);
-    printf("Type: %s\n", entry->type);
-
-
+    print_entry(entry);
 
     free_entry(entry);
     return 0;
