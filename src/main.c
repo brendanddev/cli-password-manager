@@ -30,6 +30,14 @@ int main(void) {
     print_entry(entry);
     add_password(entry);
 
+    char pswd[128];
+    if (view_password(type, pswd)) {
+        printf("Found Password: %s\n", pswd);
+    } else {
+        printf("Could not find password!\n");
+    }
+
+
     free_entry(entry);
     return 0;
 }
