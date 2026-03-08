@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/password.h"
+#include "../include/utils.h"
 
 /**
  * Appends a new password entry to the CSV file.
@@ -46,8 +47,15 @@ bool view_password(char *type, char *out) {
     while (fgets(buffer, 256, fptr) != NULL) {
         if (!parse_entry(buffer, &entry)) continue;
         
-        printf("ENTRY TYPE: %s\n", entry.type);
+        printf("ENTRY TYPE: %s", entry.type);
+        printf("RAW ENTRY: ");
+        print_raw(entry.type);
+        printf("\n");
+
+        char *norm_type = normalize_str(entry.type);
+        printf("NORMALIZED ENTRY: %s\n", norm_type);
         
+        // Compare specified type against the current entry in file
         if (strcmp(type, entry.type) == 0) {
             memcpy(out, entry.password, 256);
             fclose(fptr);

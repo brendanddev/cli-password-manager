@@ -32,7 +32,6 @@ PasswordEntry* create_entry(char *username, char *password, char *type) {
     return entry;
 }
 
-
 /**
  * Frees the memory previously allocated by the PasswordEntry.
  */

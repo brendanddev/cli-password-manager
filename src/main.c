@@ -22,13 +22,15 @@ int main(void) {
     char password[128] = "ADMIN";
     char type[32] = "TEST";
 
-    PasswordEntry *entry = create_entry(username, password, type);
-    if (entry == NULL) {
-        return -1;
-    }
+    // // Create the password entry
+    // PasswordEntry *entry = create_entry(username, password, type);
+    // if (entry == NULL) {
+    //     return -1;
+    // }
 
-    print_entry(entry);
-    add_password(entry);
+    // // Print and write entry to file
+    // print_entry(entry);
+    // add_password(entry);
 
     char pswd[128];
     if (view_password(type, pswd)) {
@@ -38,6 +40,6 @@ int main(void) {
     }
 
 
-    free_entry(entry);
+    // free_entry(entry);
     return 0;
 }

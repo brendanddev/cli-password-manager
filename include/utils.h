@@ -12,5 +12,6 @@
 #include <stdio.h>
 
 void print_raw(char *str);
+char* normalize_str(char *str);
 
 #endif
