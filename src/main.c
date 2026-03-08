@@ -32,6 +32,7 @@ int main(void) {
     // print_entry(entry);
     // add_password(entry);
 
+    // View password based on specified type
     char pswd[128];
     if (view_password(type, pswd)) {
         printf("Found Password: %s\n", pswd);
@@ -39,6 +40,12 @@ int main(void) {
         printf("Could not find password!\n");
     }
 
+    char new_pswd[128] = "PASSWORD";
+    if (edit_password(new_pswd, type)) {
+        printf("Edited password successfully!\n");
+    } else {
+        printf("Failed to edit the password!\n");
+    }
 
     // free_entry(entry);
     return 0;

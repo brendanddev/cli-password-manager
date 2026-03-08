@@ -31,7 +31,8 @@ bool add_password(PasswordEntry *entry) {
 }
 
 /**
- * Searches the CSV file for a password entry matching the given type and copies the password into out if found.
+ * Searches the CSV file for a password entry matching the given type and copies the password 
+ * into out if found.
  */
 bool view_password(char *type, char *out) {
 
@@ -47,16 +48,8 @@ bool view_password(char *type, char *out) {
     while (fgets(buffer, 256, fptr) != NULL) {
         if (!parse_entry(buffer, &entry)) continue;
         
-        printf("ENTRY TYPE: %s", entry.type);
-        printf("RAW ENTRY: ");
-        print_raw(entry.type);
-        printf("\n");
-
-        char *norm_type = normalize_str(entry.type);
-        printf("NORMALIZED ENTRY: %s\n", norm_type);
-        
         // Compare specified type against the current entry in file
-        if (strcmp(type, entry.type) == 0) {
+        if (strcmp(type, normalize_str(entry.type)) == 0) {
             memcpy(out, entry.password, 256);
             fclose(fptr);
             fptr = NULL;
@@ -67,4 +60,51 @@ bool view_password(char *type, char *out) {
     fclose(fptr);
     fptr = NULL;
     return false;
+}
+
+/**
+ * Searches the CSV file for the password entry matching the given type, and edits it
+ * by writing the new password to a new file and deleting the old.
+ */
+bool edit_password(char *new, char *type) {
+
+    bool edited = false;
+    PasswordEntry entry;
+
+    // Create pointer to passwords file
+    FILE *fptr = NULL;
+    fptr = fopen("data/passwords.csv", "r");
+    if (fptr == NULL) return false;
+
+    // Create pointer to temp file
+    FILE *temp = NULL;
+    temp = fopen("data/temp.csv", "w");
+    if (temp == NULL) {
+        fclose(fptr);
+        return false;
+    }
+
+    // Read file line by line into buffer until EOF
+    char buffer[256];
+    while (fgets(buffer, 256, fptr) != NULL) {
+        if (!parse_entry(buffer, &entry)) continue;
+        
+        // Compare specified type against the current entry in file
+        if (strcmp(type, normalize_str(entry.type)) == 0) {
+            fprintf(temp, "%s,%s,%s\n", entry.username, new, entry.type);
+            edited = true;
+            continue;
+        }
+        fprintf(temp, "%s,%s,%s\n", entry.username, entry.password, entry.type);
+    }
+
+    fclose(fptr);
+    fptr = NULL;
+    fclose(temp);
+    temp = NULL;
+
+    // Remove old file and rename the temp
+    remove("data/passwords.csv");
+    rename("data/temp.csv", "data/passwords.csv");
+    return edited;
 }
