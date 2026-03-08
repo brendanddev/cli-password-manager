@@ -47,6 +47,13 @@ int main(void) {
         printf("Failed to edit the password!\n");
     }
 
+    char delete_type[32] = "TEST";
+    if (delete_password(delete_type)) {
+        printf("The password was deleted successfully!\n");
+    } else {
+        printf("Could not find the password to delete: %s\n", delete_type);
+    }
+
     // free_entry(entry);
     return 0;
 }

@@ -108,3 +108,52 @@ bool edit_password(char *new, char *type) {
     rename("data/temp.csv", "data/passwords.csv");
     return edited;
 }
+
+/**
+ * Deletes a password based on the provided type.
+ */
+bool delete_password(char *type) {
+
+    PasswordEntry entry;
+    bool deleted = false;
+
+    // Create pointer to passwords file
+    FILE *fptr = NULL;
+    fptr = fopen("data/passwords.csv", "r");
+    if (fptr == NULL) return false;
+
+    // Create pointer to temp file
+    FILE *temp = NULL;
+    temp = fopen("data/temp.csv", "w");
+    if (temp == NULL) {
+        fclose(fptr);
+        return false;
+    }
+
+    // Read file line by line into buffer until EOF
+    char buffer[256];
+    while (fgets(buffer, 256, fptr) != NULL) {
+        if (!parse_entry(buffer, &entry)) continue;
+
+        if (strcmp(type, normalize_str(entry.type)) == 0) {
+            deleted = true;
+            continue;
+        }
+        fprintf(temp, "%s,%s,%s\n", entry.username, entry.password, entry.type);
+    }
+
+    fclose(fptr);
+    fptr = NULL;
+    fclose(temp);
+    temp = NULL;
+    
+    // Only remove old file and rename temp if a deletion occurred
+    if (deleted) {
+        remove("data/passwords.csv");
+        rename("data/temp.csv", "data/passwords.csv");
+        return deleted;
+    } else {
+        remove("data/temp.csv");
+        return deleted;
+    }
+}
